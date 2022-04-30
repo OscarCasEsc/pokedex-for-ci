@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-
 jobs:
   avoid_reduncy:
     runs-on: ubuntu-18.04
@@ -14,7 +13,6 @@ jobs:
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
-    
   lint:
     runs-on: ubuntu-18.04
     steps:
@@ -28,7 +26,6 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run eslint
-  
   build:
     runs-on: ubuntu-18.04
     steps:
@@ -46,7 +43,6 @@ jobs:
         with:
           name: dist
           path: dist
-  
   test:
     needs: [lint, build]
     runs-on: ubuntu-18.04
@@ -65,7 +61,6 @@ jobs:
           path: dist
       - name: Tests
         run: npm test
-  
   e2e:
     needs: [lint, build]
     runs-on: ubuntu-18.04
@@ -88,9 +83,6 @@ jobs:
           command: npm run test:e2e
           start: npm run start-test
           wait-on: http://localhost:5000
-
-
-
   deploy:
     needs: [test, e2e]
     runs-on: ubuntu-18.04
